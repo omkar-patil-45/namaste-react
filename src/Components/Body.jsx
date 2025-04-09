@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RestaurantCards from "./RestaurantCards";
+import ShimmerUi from "./ShimmerUi";
 // import resList from "../Utils/mockData";
 
 const Body = () => {
@@ -25,21 +26,9 @@ const Body = () => {
     );
   };
 
-  if(listOfRestaurants.length===0){
-    return <h1>Loading......</h1>
-  }
-
-  // useEffect(() => {
-  //   fetch(
-  //     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=16.6930839&lng=74.2226414&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING#"
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => setListOfRestaurants(data))
-  //     .catch((error) => console.error(error));
-  // }, []);
-  // console.log(fetch)
-
-  return (
+  return listOfRestaurants.length === 0 ? (
+    <ShimmerUi />
+  ) : (
     <div className="body">
       <div className="filter">
         <button
