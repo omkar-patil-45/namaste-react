@@ -4,10 +4,13 @@ import ShimmerUi from "./ShimmerUi";
 // import resList from "../Utils/mockData";
 
 const Body = () => {
-  // Extract the restaurants array
   // const restaurants =
   //   resList[0]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
+
+  const [filterRestaurant, setFilterRestaurant] = useState([]);
+
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -24,6 +27,11 @@ const Body = () => {
         (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
       )?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
     );
+    setFilterRestaurant(
+      json?.data?.cards?.find(
+        (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      )?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
+    );
   };
 
   return listOfRestaurants.length === 0 ? (
@@ -31,6 +39,31 @@ const Body = () => {
   ) : (
     <div className="body">
       <div className="filter">
+        <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            id="search-input"
+          />
+          <button
+            onClick={() => {
+              //fiter search text
+              console.log(searchText);
+              const filteredRestaurant = listOfRestaurants.filter((res) =>
+                res?.info?.name
+                  ?.toLowerCase()
+                  .includes(searchText.toLowerCase())
+              );
+              setFilterRestaurant(filteredRestaurant);
+            }}
+          >
+            Search
+          </button>
+        </div>
         <button
           className="filter-btn"
           onClick={() => {
@@ -43,9 +76,8 @@ const Body = () => {
           Top Rated Restaurants
         </button>
       </div>
-      <div className="search">Search</div>
       <div className="res-container">
-        {listOfRestaurants.map((restaurant, index) => (
+        {filterRestaurant.map((restaurant, index) => (
           <RestaurantCards
             key={restaurant?.info?.id || `${restaurant?.info?.name}-${index}`}
             resData={restaurant}

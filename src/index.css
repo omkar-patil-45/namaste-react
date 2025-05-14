@@ -57,3 +57,6 @@
   cursor: pointer;
   border-radius: 5px;
 }
+.filter{
+  display: flex;
+}
