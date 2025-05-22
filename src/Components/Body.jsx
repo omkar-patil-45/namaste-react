@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import RestaurantCards from "./RestaurantCards";
 import ShimmerUi from "./ShimmerUi";
 import { Link } from "react-router-dom";
-
-// import resList from "../Utils/mockData";
+import { useOnlineStatus } from "../Utils/useOnlineStatus";
 
 const Body = () => {
-  // const restaurants =
-  //   resList[0]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
 
   const [filterRestaurant, setFilterRestaurant] = useState([]);
@@ -35,6 +32,15 @@ const Body = () => {
       )?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
     );
   };
+
+  const onlineStatus = useOnlineStatus();
+
+  if (onlineStatus === false)
+    return (
+      <h1>
+        Looks like you are offline!!! please check your internet connection..
+      </h1>
+    );
 
   return listOfRestaurants.length === 0 ? (
     <ShimmerUi />
